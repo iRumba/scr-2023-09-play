@@ -1,0 +1,19 @@
+@import models.dto.ProductDTO
+@(products: List[ProductDTO])
+
+@main("Products list"){
+    <table class="table table-striped">
+        <thead>
+            <th>Название</th>
+            <th>Описание</th>
+        </thead>
+        <tbody>
+            @for(p <- products) {
+                <tr>
+                    <td>@p.title</td>
+                    <td>@p.description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

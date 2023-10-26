@@ -4,7 +4,7 @@ import play.api.libs.functional.syntax.{functionalCanBuildApplicative, toFunctio
 import play.api.libs.json.{JsPath, JsValue, Json, Reads, Writes}
 import play.api.mvc.PathBindable
 
-case class User(id: UserId, email: Email)
+case class User(id: UserId, email: Email, password: String)
 
 object User{
 //  implicit val reads: Reads[User] = (

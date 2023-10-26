@@ -1,0 +1,10 @@
+@import models.dto.LoginDTO
+@(form: Form[LoginDTO])
+
+@main("Login"){
+    @helper.form(action = routes.IndexController.loginPageSubmit()){
+        @helper.inputText(form("email"))
+        @helper.inputPassword(form("password"))
+        <button type="submit" class="btn btn-primary">Log in</button>
+    }
+}

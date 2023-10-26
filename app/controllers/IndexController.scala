@@ -1,16 +1,16 @@
 package controllers
 
+import com.google.inject.Inject
+import models.dto.LoginDTO
 import models.{Paging, User, UserId}
+import play.api.data.{Form, Forms}
+import play.api.data.Forms.{email, mapping, nonEmptyText, of, text}
 import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, Controller, Cookie, DiscardingCookie}
 
-case class Foo(foo: String)
+import scala.language.postfixOps
 
-
-
-object IndexController extends Controller{
-
-  def foo(p : Option[Int] = Some(2)): Option[Int] = ???
+class IndexController extends Controller{
 
   // f: Request => Result
 
@@ -125,6 +125,34 @@ object IndexController extends Controller{
     Ok(Json.toJson(user))
   }
 
+  def index() = Action{
+    Ok(views.html.index())
+  }
+
+  val loginForm = Form[LoginDTO](
+    mapping(
+      "email" -> email,
+      "password" -> nonEmptyText(minLength = 6)
+    )(LoginDTO.apply)(LoginDTO.unapply)
+  )
+
+  def loginPage() = Action{
+    Ok(views.html.login(loginForm))
+  }
+
+  def loginPageSubmit() = Action{ implicit rc =>
+    loginForm.bindFromRequest.fold(
+      formWithErrors => BadRequest(views.html.login(formWithErrors)),
+      dto =>
+        Redirect(routes.IndexController.index())
+          .withSession("email" -> dto.email)
+    )
+  }
+
+  def logOut() = Action{ rc =>
+    Redirect(routes.IndexController.index())
+      .withSession(rc.session - "email")
+  }
 
 
 }
