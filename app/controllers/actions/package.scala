@@ -1,6 +1,7 @@
 package controllers
 
 import controllers.Assets.Forbidden
+import models.LoginService
 import play.api.mvc.{ActionBuilder, ActionFilter, ActionTransformer, Request, WrappedRequest}
 
 import scala.concurrent.Future
@@ -13,15 +14,16 @@ package object actions {
     )
   }
 
-  object PermissionCheckAction extends ActionFilter[UserRequest]{
-    private val validUserNames = Set("user@gmail.com")
+  class PermissionCheckAction(loginService: LoginService) extends ActionFilter[UserRequest]{
+
 
     def filter[A](input: UserRequest[A]) = Future.successful(
-      if(!validUserNames.contains(input.email.getOrElse("")))
+      if(!input.email.exists(e => loginService.checkEmail(e)))
         Some(Forbidden)
       else None
     )
   }
 
-  def authAction: ActionBuilder[UserRequest] = UserAction andThen PermissionCheckAction
+  def authAction(loginService: LoginService): ActionBuilder[UserRequest] =
+    UserAction andThen new PermissionCheckAction(loginService)
 }

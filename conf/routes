@@ -18,6 +18,10 @@ GET  /login                  @controllers.IndexController.loginPage()
 POST /login                  @controllers.IndexController.loginPageSubmit()
 GET  /logout                 @controllers.IndexController.logOut()
 
+# phonerecords
+
+GET   /phonebook/list        @controllers.PhoneBookController.list()
+
 # Products
 
 GET   /products/list         @controllers.ProductController.list()
