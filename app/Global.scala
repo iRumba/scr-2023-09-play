@@ -21,26 +21,27 @@ object Global extends  GlobalSettings{
     injector.getInstance(controllerClass)
 
   override def onStart(app: Application): Unit = {
-    //initializeSqueryl()
-    //performMigration()
+    Class.forName("org.postgresql.Driver")
+    initializeSqueryl()
+    performMigration()
 
   }
 
-//  private def initializeSqueryl() {
-//    SessionFactory.concreteFactory = Some(() =>
-//    {
-//      val s = getSession(SquerylConfig.dbDefaultAdapter)
-//      if(SquerylConfig.logSql)
-//        s.setLogger( s => Logger.warn(s))
-//      s
-//    })
-//  }
+  private def initializeSqueryl() {
+    SessionFactory.concreteFactory = Some(() =>
+    {
+      val s = getSession(SquerylConfig.dbDefaultAdapter)
+      if(SquerylConfig.logSql)
+        s.setLogger( s => Logger.warn(s))
+      s
+    })
+  }
 
-//  private def getSession(adapter: DatabaseAdapter) =
-//    Session.create(db.hikariDataSource.getConnection, adapter)
-//
-//  private def performMigration() = {
-//    val liqui = Liqui.mkLiquibase
-//    liqui.update("dev")
-//  }
+  private def getSession(adapter: DatabaseAdapter) =
+    Session.create(db.hikariDataSource.getConnection, adapter)
+
+  private def performMigration() = {
+    val liqui = Liqui.mkLiquibase
+    liqui.update("dev")
+  }
 }

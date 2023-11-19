@@ -1,3 +1,5 @@
 package models
 
-case class Product(id: String, title: String, description: String)
+import org.squeryl.KeyedEntity
+
+case class Product(id: String, title: String, description: String) extends KeyedEntity[String]
