@@ -1,6 +1,6 @@
 package module
 
-import models.dao.repositories.{PhoneRecordRepository, PhoneRecordRepositoryImpl, ProductsRepository, ProductsRepositoryInMemoryImpl}
+import models.dao.repositories.{PhoneRecordRepository, PhoneRecordRepositoryImpl, ProductsRepository, ProductsRepositoryInMemoryImpl, ProductsRepositorySlickImpl}
 import models.{LoginService, LoginServiceImpl, ProductsService, ProductsServiceImpl}
 
 class ScrModule extends AppModule {
@@ -8,6 +8,6 @@ class ScrModule extends AppModule {
     bindSingleton[LoginService, LoginServiceImpl]
     bindSingleton[PhoneRecordRepository, PhoneRecordRepositoryImpl]
     bindSingleton[ProductsService, ProductsServiceImpl]
-    bindSingleton[ProductsRepository, ProductsRepositoryInMemoryImpl]
+    bindSingleton[ProductsRepository, ProductsRepositorySlickImpl]
   }
 }
